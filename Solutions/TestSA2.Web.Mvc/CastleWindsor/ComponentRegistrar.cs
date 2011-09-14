@@ -5,6 +5,7 @@ namespace TestSA2.Web.Mvc.CastleWindsor
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
 
+    using SharpArch.Domain.Commands;
     using SharpArch.Domain.PersistenceSupport;
     using SharpArch.NHibernate;
     using SharpArch.NHibernate.Contracts.Repositories;
@@ -25,7 +26,7 @@ namespace TestSA2.Web.Mvc.CastleWindsor
             container.Register(
                 AllTypes
                     .FromAssemblyNamed("TestSA2.Tasks")
-                    .Pick()
+                    .Pick().If(t => t.Name.EndsWith("Tasks"))
                     .WithService.FirstNonGenericCoreInterface("TestSA2.Domain"));
         }
 
@@ -34,17 +35,12 @@ namespace TestSA2.Web.Mvc.CastleWindsor
             container.Register(
                 AllTypes
                     .FromAssemblyNamed("TestSA2.Infrastructure")
-                    .Pick()
+                    .BasedOn(typeof(IRepositoryWithTypedId<,>))
                     .WithService.FirstNonGenericCoreInterface("TestSA2.Domain"));
         }
 
         private static void AddGenericRepositoriesTo(IWindsorContainer container)
         {
-            container.Register(
-                Component.For(typeof(IQuery<>))
-                    .ImplementedBy(typeof(NHibernateQuery<>))
-                    .Named("NHibernateQuery"));
-
             container.Register(
                 Component.For(typeof(IEntityDuplicateChecker))
                     .ImplementedBy(typeof(EntityDuplicateChecker))
@@ -66,17 +62,16 @@ namespace TestSA2.Web.Mvc.CastleWindsor
                         .Named("sessionFactoryKeyProvider"));
 
             container.Register(
-                    Component.For(typeof(SharpArch.Domain.Commands.ICommandProcessor))
-                        .ImplementedBy(typeof(SharpArch.Domain.Commands.CommandProcessor))
+                    Component.For(typeof(ICommandProcessor))
+                        .ImplementedBy(typeof(CommandProcessor))
                         .Named("commandProcessor"));
-                
         }
 
         private static void AddQueryObjectsTo(IWindsorContainer container) 
         {
             container.Register(
                 AllTypes.FromAssemblyNamed("TestSA2.Web.Mvc")
-                    .Pick()
+                    .BasedOn<NHibernateQuery>()
                     .WithService.FirstInterface());
         }
 
@@ -84,7 +79,7 @@ namespace TestSA2.Web.Mvc.CastleWindsor
         {
             container.Register(
                 AllTypes.FromAssemblyNamed("TestSA2.Tasks")
-                    .Pick()
+                    .BasedOn(typeof(ICommandHandler<>))
                     .WithService.FirstInterface());
         }
     }
