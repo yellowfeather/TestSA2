@@ -6,40 +6,58 @@
   using System.Web.Mvc;
 
   using MvcContrib;
+  using MvcContrib.Filters;
 
+  using SharpArch.Domain.Commands;
   using SharpArch.NHibernate.Web.Mvc;
 
   using TestSA2.Domain.Contracts.Tasks;
+  using TestSA2.Tasks.Commands;
   using TestSA2.Web.Mvc.Controllers.Products.Queries;
   using TestSA2.Web.Mvc.Controllers.Products.ViewModels;
+  using TestSA2.Web.Mvc.Extensions;
 
   [Transaction]
   public class ProductsController : Controller
   {
     private const int DefaultPageSize = 20;
 
+    private readonly ICommandProcessor commandProcessor;
+
     private readonly IProductQueries productQueries;
 
     private readonly IProductTasks productTasks;
 
-    public ProductsController(IProductQueries productQueries, IProductTasks productTasks)
+    public ProductsController(ICommandProcessor commandProcessor, IProductQueries productQueries, IProductTasks productTasks)
     {
+      this.commandProcessor = commandProcessor;
       this.productQueries = productQueries;
       this.productTasks = productTasks;
     }
 
+    [HttpGet]
+    [ModelStateToTempData]
     public ActionResult Create()
     {
-      var viewModel = new ProductViewModel();
+      var viewModel = TempData.SafeGet<ProductViewModel>() ?? new ProductViewModel();
       return this.View(viewModel);
     }
 
     [HttpPost]
+    [ModelStateToTempData]
     public ActionResult Create(ProductViewModel viewModel)
     {
+      if (!ViewData.ModelState.IsValid)
+      {
+        TempData.SafeAdd(viewModel);
+        return this.RedirectToAction(c => c.Create());
+      }
+
       try
       {
-        this.productTasks.Create(viewModel.Name);
+        var command = new CreateProductCommand(viewModel.Name);
+        commandProcessor.Process(command);
+
         return this.RedirectToAction("Index");
       }
       catch

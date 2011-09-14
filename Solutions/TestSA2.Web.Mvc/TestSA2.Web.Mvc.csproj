@@ -153,6 +153,7 @@
     <Compile Include="Controllers\Products\ViewModels\ProductListViewModel.cs" />
     <Compile Include="Controllers\Products\ViewModels\ProductViewModel.cs" />
     <Compile Include="Controllers\RouteRegistrar.cs" />
+    <Compile Include="Extensions\TempDataExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
