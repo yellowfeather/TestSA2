@@ -10,7 +10,7 @@
   using SharpArch.NHibernate.Web.Mvc;
 
   using TestSA2.Domain.Contracts.Tasks;
-  using TestSA2.Web.Mvc.Controllers.Products.Queries.Contracts;
+  using TestSA2.Web.Mvc.Controllers.Products.Queries;
   using TestSA2.Web.Mvc.Controllers.Products.ViewModels;
 
   [Transaction]

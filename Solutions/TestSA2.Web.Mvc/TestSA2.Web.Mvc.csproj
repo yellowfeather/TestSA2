@@ -148,8 +148,8 @@
     <Compile Include="CastleWindsor\ComponentRegistrar.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Products\ProductsController.cs" />
-    <Compile Include="Controllers\Products\Queries\Contracts\IProductQueries.cs" />
-    <Compile Include="Controllers\Products\Queries\ProductQueries.cs" />
+    <Compile Include="Controllers\Products\Queries\IProductQueries.cs" />
+    <Compile Include="Controllers\Products\Queries\Impl\ProductQueries.cs" />
     <Compile Include="Controllers\Products\ViewModels\ProductListViewModel.cs" />
     <Compile Include="Controllers\Products\ViewModels\ProductViewModel.cs" />
     <Compile Include="Controllers\RouteRegistrar.cs" />
@@ -199,7 +199,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

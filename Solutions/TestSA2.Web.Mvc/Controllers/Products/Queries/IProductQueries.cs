@@ -1,4 +1,4 @@
-namespace TestSA2.Web.Mvc.Controllers.Products.Queries.Contracts
+namespace TestSA2.Web.Mvc.Controllers.Products.Queries
 {
   using MvcContrib.Pagination;
 

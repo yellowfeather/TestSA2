@@ -9,7 +9,7 @@
 
   using TestSA2.Domain;
   using TestSA2.Web.Mvc.Controllers.Products.Queries;
-  using TestSA2.Web.Mvc.Controllers.Products.Queries.Contracts;
+  using TestSA2.Web.Mvc.Controllers.Products.Queries.Impl;
   using TestSA2.Web.Mvc.Controllers.Products.ViewModels;
 
   [TestFixture]

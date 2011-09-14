@@ -1,6 +1,5 @@
-namespace TestSA2.Web.Mvc.Controllers.Products.Queries
+namespace TestSA2.Web.Mvc.Controllers.Products.Queries.Impl
 {
-  using System;
   using System.Linq;
 
   using MvcContrib.Pagination;
@@ -11,7 +10,7 @@ namespace TestSA2.Web.Mvc.Controllers.Products.Queries
   using SharpArch.NHibernate;
 
   using TestSA2.Domain;
-  using TestSA2.Web.Mvc.Controllers.Products.Queries.Contracts;
+  using TestSA2.Web.Mvc.Controllers.Products.Queries;
   using TestSA2.Web.Mvc.Controllers.Products.ViewModels;
 
   public class ProductQueries : NHibernateQuery, IProductQueries
